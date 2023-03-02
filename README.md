@@ -55,7 +55,7 @@ We have structured this workshop using the [4C model](https://www.bowperson.com/
 # DAWIN B
 
 
-# Pour faire fonctionner styker :
+# Pour faire fonctionner stryker :
 
 `npm install -g stryker-cli`
 
