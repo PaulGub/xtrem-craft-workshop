@@ -11,7 +11,6 @@ class Portfolio {
     }
 }
 
-
 describe('Portfolios', () => { 
     test('5 USD + 10 EUR = 17 USD', () => {
         const portfolio = new Portfolio();
