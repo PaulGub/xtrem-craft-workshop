@@ -1,6 +1,7 @@
 # Code review technique
 
 ## Bank
+
 Dans Convert, la condition n'est pas optimisée.
 Problèmes d'indendation du code. Le code est globalement peu lisible.
 
