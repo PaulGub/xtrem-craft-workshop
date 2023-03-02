@@ -14,8 +14,19 @@ while (true) {
 }
 ```
 
+Voici un exemple de mauvaise indentation en TypeScript :
 
-
+```ts
+function calculateTotalPrice(pricePerItem: number, numberOfItems: number) : number {
+if(numberOfItems < 1) {
+return 0;
+}
+else {
+let totalPrice = pricePerItem * numberOfItems;
+return totalPrice;
+}
+}
+```
 
 La duplication de code, qui peut entraîner une maintenance plus difficile et des erreurs potentielles. Par exemple :
 ```ts
