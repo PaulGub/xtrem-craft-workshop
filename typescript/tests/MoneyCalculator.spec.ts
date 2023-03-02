@@ -58,4 +58,5 @@ describe('MoneyCalculator', () => {
       expect(result).toBeCloseTo(1000.5, 4);
     });
   });
+  
 });
