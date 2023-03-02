@@ -1,5 +1,5 @@
-import { Bank } from "./Bank";
-import { Currency } from "./Currency";
+import { Bank } from "../src/Bank";
+import { Currency } from "../src/Currency";
 
 class Portfolio { 
     add(number: number, EUR: Currency) { } 
