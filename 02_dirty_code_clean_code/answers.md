@@ -14,13 +14,7 @@ while (true) {
 }
 ```
 
-Mauvaise indentation
 
-```js
-while (true) {
-    // Code qui s'exécute en boucle indéfiniment
-}
-```
 
 
 La duplication de code, qui peut entraîner une maintenance plus difficile et des erreurs potentielles. Par exemple :
