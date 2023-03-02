@@ -10,7 +10,7 @@ export class MoneyCalculator {
   static Times (amount: number, currency: Currency, number: number): number|null {
     return this.checkNumberSign(amount, number) ? amount * number : null
   }
-  static Divide (amount: number, currency: Currency, value: number): number {
+  static Divide (amount: number, currency: Currency, value: number): number|null {
     return this.checkNumberSign(amount, value) ? amount / value : null
   }
 }
