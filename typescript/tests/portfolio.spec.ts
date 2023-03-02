@@ -1,28 +1,50 @@
-import { experiment } from "fp-ts/lib/Store";
-import { Bank } from "../src/Bank";
-import { Currency } from "../src/Currency";
+import { empty } from 'fp-ts/lib/ReadonlyRecord'
+import { experiment } from 'fp-ts/lib/Store'
+import { Bank } from '../src/Bank'
+import { Currency } from '../src/Currency'
 
-class Portfolio { 
-    add(number: number, EUR: Currency) { 
+class Portfolio {
+  private count: { amount: number; currency: Currency }[] = []
 
-    } 
-    evaluate(USD: Currency, bank: Bank) { 
-        return 17;
-    }
+  add(amount: number, currency: Currency) {
+    this.count.push({ amount: amount, currency: currency })
+  }
+  evaluate(to: Currency, bank: Bank) {
+    return this.count.reduce(
+      (acc: number, cur: { amount: number, currency: Currency }): number => {
+        return acc + bank.Convert(cur.amount, cur.currency, to)
+      },
+      0
+      )
+  }
 }
 
-describe('Portfolios', () => { 
-    test('5 USD + 10 EUR = 17 USD', () => {
-        const portfolio = new Portfolio();
-        portfolio.add(5, Currency.USD);
-        portfolio.add(10, Currency.EUR);
-        const result = portfolio.evaluate(Currency.USD, Bank.withExchangeRate(Currency.EUR, Currency.USD, 1.2));
-        expect(result).toBe(17);
-    })
+describe('Portfolios', () => {
+  const bank = Bank.withExchangeRate(Currency.USD, Currency.EUR, 1.2)
 
-    it('should be evaluated to 0 when empty', () => {
-        const portfolio = new Portfolio();
-        const result = portfolio.evaluate(Currency.USD, Bank.withExchangeRate(Currency.EUR, Currency.EUR, 1.2));
-        expect(result).toBe(0);
-    })
+  test('5 USD + 10 EUR = 17 USD', () => {
+    const portfolio = new Portfolio()
+    portfolio.add(5, Currency.USD)
+    portfolio.add(10, Currency.EUR)
+
+    const result = portfolio.evaluate(Currency.USD, bank)
+
+    expect(result).toBe(17)
+  })
+
+  it('should be evaluated to 0 when empty', () => {
+    const portfolio = new Portfolio()
+    const result = portfolio.evaluate(Currency.USD, bank)
+
+    expect(result).toBe(0)
+  })
+
+  it('', () => {
+    const portfolio = new Portfolio()
+    portfolio.add(5, Currency.USD)
+
+    const result = portfolio.evaluate(Currency.USD, bank)
+
+    expect(result).toBe(5)
+  })
 })
