@@ -1,0 +1,62 @@
+name: TypeScript Tests
+
+on:
+  push:
+    branches:
+      - master
+      - feature/*
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '17.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm run test
+
+  stryker-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '17.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install globally stryker
+        run: npm install -g stryker-cli
+
+      - name: Run stryker
+        run: stryker run
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: stryker-report
+          path: typescript/reports
