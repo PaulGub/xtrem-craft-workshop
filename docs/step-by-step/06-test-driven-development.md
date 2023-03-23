@@ -30,3 +30,12 @@ Notre mission pour cette itération est d'implémenter la notion de portefeuille
 > 3 faits et une question à propos du Test Driven Development
 
 > Qu'avez-vous appris de l'introduction de nouveaux rôles en mob programming ?
+
+- Directement du code efficace
+- Difference entre le code propre et le code sale
+- Cas de tests
+- Gain de temps
+- Nouveaux processus collaboratif
+- Ecrire le minimum YAGNI
+- nation de qualité
+- Production de chance de satisfaire le client

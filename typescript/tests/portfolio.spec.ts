@@ -38,7 +38,7 @@ describe('Portfolios', () => {
     portfolio.add(1, Currency.USD)
     portfolio.add(1100, Currency.KRW)
 
-    const result = portfolio.evaluate(Currency.KRW, bank)
+    const result = portfolio.evaluate(Currency.KRW, bankKR)
 
     expect(result).toBe(2200)
   })
