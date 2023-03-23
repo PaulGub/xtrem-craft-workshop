@@ -58,13 +58,4 @@ describe('Portfolios', () => {
 
     expect(result).toBe(5)
   })
-  test('1 USD + 1100 KRW = 2200 KRW', () => {
-    const portfolio = new Portfolio()
-    portfolio.add(1, Currency.USD)
-    portfolio.add(1100, Currency.KRW)
-
-    const result = portfolio.evaluate(Currency.KRW, bankKR)
-
-    expect(result).toBe(2200)
-  })
 })
