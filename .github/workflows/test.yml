@@ -12,6 +12,7 @@ on:
 jobs:
   unit-test:
     runs-on: ubuntu-latest
+    working-directory: ./typescript
 
     steps:
       - name: Checkout code
@@ -23,15 +24,14 @@ jobs:
           node-version: '17.x'
 
       - name: Install dependencies
-        working-directory: ./typescript
         run: npm install
 
       - name: Run tests
-        working-directory: ./typescript
         run: npm run test
 
   stryker-test:
     runs-on: ubuntu-latest
+    working-directory: ./typescript
 
     steps:
       - name: Checkout code
@@ -43,13 +43,10 @@ jobs:
           node-version: '17.x'
 
       - name: Install dependencies
-        working-directory: ./typescript
         run: npm install
 
       - name: Install globally stryker
-        working-directory: ./typescript
         run: npm install -g stryker-cli
 
       - name: Run stryker
-        working-directory: ./typescript
         run: stryker run
