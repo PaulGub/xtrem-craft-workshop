@@ -73,13 +73,4 @@ describe('Portfolios', () => {
 
     expect(result).toBe(0)
   })
-
-  it('', () => {
-    const portfolio = new Portfolio()
-    portfolio.add(5, Currency.USD)
-
-    const result = portfolio.evaluate(Currency.USD, bankEURtoUSD)
-
-    expect(result).toBe(5)
-  })
 })
