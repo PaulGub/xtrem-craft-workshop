@@ -20,12 +20,10 @@ class Portfolio {
 }
 
 describe('Portfolios', () => {
-  const bank = new Bank();
-  
-  bank.AddExchangeRate(Currency.EUR, Currency.USD, 1.2)
-  bank.AddExchangeRate(Currency.USD, Currency.KRW, 1100)
-  bank.AddExchangeRate(Currency.USD, Currency.EUR, 0.82)
-  bank.AddExchangeRate(Currency.EUR, Currency.KRW, 1344)
+  const bank = Bank.withExchangeRate(Currency.EUR, Currency.USD, 1.2)
+  bank = bank.AddExchangeRate(Currency.USD, Currency.KRW, 1100)
+  bank = bank.AddExchangeRate(Currency.USD, Currency.EUR, 0.82)
+  bank = bank.AddExchangeRate(Currency.EUR, Currency.KRW, 1344)
 
   test('5 USD + 10 EUR = 17 USD', () => {
     const portfolio = new Portfolio()
@@ -62,9 +60,6 @@ describe('Portfolios', () => {
     const portfolio = new Portfolio()
     portfolio.add(new Money(5, Currency.USD))
     portfolio.add(new Money(10, Currency.EUR))
-    const bank = new Bank();
-    bank.AddExchangeRate(Currency.USD, Currency.KRW, 1100)
-    bank.AddExchangeRate(Currency.EUR, Currency.KRW, 1344)
     const result2 = portfolio.evaluate(Currency.KRW, bank)
 
     expect(result2).toStrictEqual(new Money(18940, Currency.KRW))
