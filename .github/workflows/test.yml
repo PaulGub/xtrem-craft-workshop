@@ -58,5 +58,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: xtrem-craft-stryker
-          path: ./dist
+          name: stryker-report
+          path: typescript/reports
