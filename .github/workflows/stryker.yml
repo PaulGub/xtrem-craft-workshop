@@ -1,0 +1,31 @@
+name: TypeScript Tests with Stryker
+
+on:
+  push:
+    branches:
+      - master
+      - feature/*
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+
+      - name: Install dependencies
+        working-directory: ./typescript
+        run: npm install
+
+      - name: Run tests with Stryker
+        working-directory: ./typescript
+        run: npx stryker run
