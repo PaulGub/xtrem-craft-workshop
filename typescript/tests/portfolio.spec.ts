@@ -20,15 +20,17 @@ class Portfolio {
 }
 
 describe('Portfolios', () => {
-  const bank = Bank.withExchangeRate(Currency.EUR, Currency.USD, 1.2)
-  const bankKR = Bank.withExchangeRate(Currency.USD, Currency.KRW, 1100)
+  const bankEURtoUSD = Bank.withExchangeRate(Currency.EUR, Currency.USD, 1.2)
+  const bankUSDtoKR = Bank.withExchangeRate(Currency.USD, Currency.KRW, 1100)
+  const bankUSDtoEUR = Bank.withExchangeRate(Currency.USD, Currency.EUR, 0.82)
+  const bankEURtoKR = Bank.withExchangeRate(Currency.EUR, Currency.KRW, 1344)
 
   test('5 USD + 10 EUR = 17 USD', () => {
     const portfolio = new Portfolio()
     portfolio.add(5, Currency.USD)
     portfolio.add(10, Currency.EUR)
 
-    const result = portfolio.evaluate(Currency.USD, bank)
+    const result = portfolio.evaluate(Currency.USD, bankEURtoUSD)
 
     expect(result).toBe(17)
   })
@@ -38,14 +40,36 @@ describe('Portfolios', () => {
     portfolio.add(1, Currency.USD)
     portfolio.add(1100, Currency.KRW)
 
-    const result = portfolio.evaluate(Currency.KRW, bankKR)
+    const result = portfolio.evaluate(Currency.KRW, bankUSDtoKR)
 
     expect(result).toBe(2200)
   })
 
+  test('5 USD + 10 EUR = 14.1 EUR', () => {
+    const portfolio = new Portfolio()
+    portfolio.add(5, Currency.USD)
+    portfolio.add(10, Currency.EUR)
+
+    const result = portfolio.evaluate(Currency.EUR, bankUSDtoEUR)
+
+    expect(result).toBe(14.1)
+  })
+
+  test('5 USD + 10 EUR = 18940 KRW', () => {
+    const portfolio = new Portfolio()
+    portfolio.add(5, Currency.USD)
+    const result = portfolio.evaluate(Currency.KRW, bankUSDtoKR)
+
+    const portfolio2 = new Portfolio();
+    portfolio2.add(10, Currency.EUR)
+    const result2 = portfolio2.evaluate(Currency.KRW, bankEURtoKR)
+
+    expect(result + result2).toBe(18940)
+  })
+
   it('should be evaluated to 0 when empty', () => {
     const portfolio = new Portfolio()
-    const result = portfolio.evaluate(Currency.USD, bankKR)
+    const result = portfolio.evaluate(Currency.USD, bankUSDtoKR)
 
     expect(result).toBe(0)
   })
@@ -54,7 +78,7 @@ describe('Portfolios', () => {
     const portfolio = new Portfolio()
     portfolio.add(5, Currency.USD)
 
-    const result = portfolio.evaluate(Currency.USD, bank)
+    const result = portfolio.evaluate(Currency.USD, bankEURtoUSD)
 
     expect(result).toBe(5)
   })
