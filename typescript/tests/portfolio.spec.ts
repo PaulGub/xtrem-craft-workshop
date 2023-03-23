@@ -5,17 +5,16 @@ import { Currency } from '../src/Currency'
 import { Money } from '../src/Money'
 
 class Portfolio {
-  private count: { amount: number; currency: Currency }[] = []
+  private count: Money[] = []
 
-  add(amount : number, currency : Currency) {
-    this.count.push({ amount: amount, currency: currency })
+  add(money : Money) {
+    this.count.push(money)
   }
-  evaluate(to: Currency, bank: Bank) {
+  evaluate(to: Currency, bank: Bank) : Money {
     return this.count.reduce(
-      (acc: number, cur: { amount: number; currency: Currency }): number => {
-        return acc + bank.ConvertOld(cur.amount, cur.currency, to)
-      },
-      0
+      (acc: Money, cur: Money): Money => {
+        return acc.addition(bank.Convert(cur, to))
+      }, new Money(0, to)
     )
   }
 }
@@ -34,7 +33,7 @@ describe('Portfolios', () => {
 
     const result = portfolio.evaluate(Currency.USD, bankEURtoUSD)
 
-    expect(result).toBe(17)
+    expect(result).toStrictEqual(new Money(17,Currency.USD))
   })
 
   test('1 USD + 1100 KRW = 2200 KRW', () => {
@@ -44,7 +43,7 @@ describe('Portfolios', () => {
 
     const result = portfolio.evaluate(Currency.KRW, bankUSDtoKR)
 
-    expect(result).toBe(2200)
+    expect(result).toStrictEqual(new Money(2200, Currency.KRW))
   })
 
   test('5 USD + 10 EUR = 14.1 EUR', () => {
@@ -54,25 +53,22 @@ describe('Portfolios', () => {
 
     const result = portfolio.evaluate(Currency.EUR, bankUSDtoEUR)
 
-    expect(result).toBe(14.1)
+    expect(result).toStrictEqual(new Money(14.1, Currency.EUR))
   })
 
   test('5 USD + 10 EUR = 18940 KRW', () => {
     const portfolio = new Portfolio()
     portfolio.add(new Money(5, Currency.USD))
-    const result = portfolio.evaluate(Currency.KRW, bankUSDtoKR)
+    portfolio.add(new Money(10, Currency.EUR))
+    const result2 = portfolio.evaluate(Currency.KRW, bankEURtoKR)
 
-    const portfolio2 = new Portfolio();
-    portfolio2.add(new Money(10, Currency.EUR))
-    const result2 = portfolio2.evaluate(Currency.KRW, bankEURtoKR)
-
-    expect(result + result2).toBe(18940)
+    expect(result2).toStrictEqual(new Money(18940, Currency.KRW))
   })
 
   it('should be evaluated to 0 when empty', () => {
     const portfolio = new Portfolio()
     const result = portfolio.evaluate(Currency.USD, bankUSDtoKR)
 
-    expect(result).toBe(0)
+    expect(result).toStrictEqual(new Money(0,Currency.USD))
   })
 })
