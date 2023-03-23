@@ -50,10 +50,6 @@ jobs:
         working-directory: ./typescript
         run: npm install -g stryker-cli
 
-      - name: Stryker init
-        working-directory: ./typescript
-        run: stryker init
-
       - name: Run stryker
         working-directory: ./typescript
         run: stryker run
