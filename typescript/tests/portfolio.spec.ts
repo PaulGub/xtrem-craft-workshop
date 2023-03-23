@@ -2,11 +2,12 @@ import { empty } from 'fp-ts/lib/ReadonlyRecord'
 import { experiment } from 'fp-ts/lib/Store'
 import { Bank } from '../src/Bank'
 import { Currency } from '../src/Currency'
+import { Money } from '../src/Money'
 
 class Portfolio {
   private count: { amount: number; currency: Currency }[] = []
 
-  add(amount: number, currency: Currency) {
+  add(amount : number, currency : Currency) {
     this.count.push({ amount: amount, currency: currency })
   }
   evaluate(to: Currency, bank: Bank) {
@@ -27,8 +28,9 @@ describe('Portfolios', () => {
 
   test('5 USD + 10 EUR = 17 USD', () => {
     const portfolio = new Portfolio()
-    portfolio.add(5, Currency.USD)
-    portfolio.add(10, Currency.EUR)
+
+    portfolio.add(new Money(5, Currency.USD));
+    portfolio.add(new Money(10, Currency.EUR));
 
     const result = portfolio.evaluate(Currency.USD, bankEURtoUSD)
 
@@ -37,8 +39,8 @@ describe('Portfolios', () => {
 
   test('1 USD + 1100 KRW = 2200 KRW', () => {
     const portfolio = new Portfolio()
-    portfolio.add(1, Currency.USD)
-    portfolio.add(1100, Currency.KRW)
+    portfolio.add(new Money(1, Currency.EUR))
+    portfolio.add(new Money(1100, Currency.KRW))
 
     const result = portfolio.evaluate(Currency.KRW, bankUSDtoKR)
 
@@ -47,8 +49,8 @@ describe('Portfolios', () => {
 
   test('5 USD + 10 EUR = 14.1 EUR', () => {
     const portfolio = new Portfolio()
-    portfolio.add(5, Currency.USD)
-    portfolio.add(10, Currency.EUR)
+    portfolio.add(new Money(5, Currency.USD))
+    portfolio.add(new Money(10, Currency.EUR))
 
     const result = portfolio.evaluate(Currency.EUR, bankUSDtoEUR)
 
@@ -57,11 +59,11 @@ describe('Portfolios', () => {
 
   test('5 USD + 10 EUR = 18940 KRW', () => {
     const portfolio = new Portfolio()
-    portfolio.add(5, Currency.USD)
+    portfolio.add(new Money(5, Currency.USD))
     const result = portfolio.evaluate(Currency.KRW, bankUSDtoKR)
 
     const portfolio2 = new Portfolio();
-    portfolio2.add(10, Currency.EUR)
+    portfolio2.add(new Money(10, Currency.EUR))
     const result2 = portfolio2.evaluate(Currency.KRW, bankEURtoKR)
 
     expect(result + result2).toBe(18940)
