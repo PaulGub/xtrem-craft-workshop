@@ -10,7 +10,7 @@ on:
       - master
 
 jobs:
-  test:
+  unit-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +20,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16.x'
+          node-version: '17.x'
 
       - name: Install dependencies
         working-directory: ./typescript
@@ -29,6 +29,30 @@ jobs:
       - name: Run tests
         working-directory: ./typescript
         run: npm run test
+
+  stryker-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '17.x'
+
+      - name: Install dependencies
+        working-directory: ./typescript
+        run: npm install
+
+      - name: Install globally stryker
+        working-directory: ./typescript
+        run: npm install -g stryker-cli
+
+      - name: Stryker init
+        working-directory: ./typescript
+        run: stryker init
 
       - name: Run stryker
         working-directory: ./typescript
