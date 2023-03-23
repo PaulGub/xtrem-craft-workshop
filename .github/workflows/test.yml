@@ -23,6 +23,7 @@ jobs:
           node-version: '16.x'
 
       - name: Install dependencies
+        working-directory: ./typescript
         run: npm install
 
       - name: Run tests
