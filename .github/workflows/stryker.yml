@@ -28,4 +28,4 @@ jobs:
 
       - name: Run tests with Stryker
         working-directory: ./typescript
-        run: npx stryker run
+        run: stryker run
