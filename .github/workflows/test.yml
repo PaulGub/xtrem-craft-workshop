@@ -29,3 +29,7 @@ jobs:
       - name: Run tests
         working-directory: ./typescript
         run: npm run test
+
+      - name: Run stryker
+        working-directory: ./typescript
+        run: stryker run
