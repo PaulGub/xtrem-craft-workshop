@@ -1,11 +1,21 @@
 import {Currency} from '../src/Currency';
 import {Bank} from '../src/Bank';
 
+class ExchangeRate {
+    public currency: Currency;
+    public rate: number;
+  
+    constructor(currency: Currency, rate: number) {
+        this.currency = currency;
+        this.rate = rate;
+    }
+}
+
 export class BankBuilder {
   static aBank = (): BankBuilder => new BankBuilder()
   private pivotCurrency: Currency = Currency.EUR;
-  private exchangeRates: Map<Currency, number> = new Map<Currency, number>([
-    [Currency.USD, 1.2]
+  private exchangeRates: Map<Currency, ExchangeRate> = new Map<Currency, ExchangeRate>([
+    [Currency.USD, new ExchangeRate(Currency.USD, 1.2)]
   ]);
 
   public withPivotCurrency(currency: Currency): BankBuilder {
@@ -13,16 +23,16 @@ export class BankBuilder {
     return this;
   }
 
-  public withExchangeRate(to: Currency, rate: number): BankBuilder {
-    this.exchangeRates.set(to, rate);
+  public withExchangeRate(exchangeRate: ExchangeRate): BankBuilder {
+    this.exchangeRates.set(exchangeRate.currency, exchangeRate);
     return this;
   }
 
   public build(): Bank {
     let bank = new Bank;
-    this.exchangeRates.forEach((rate: number, currency: Currency) => {
-      bank.AddExchangeRate(this.pivotCurrency, currency, rate);
-      bank.AddExchangeRate(currency, this.pivotCurrency, 1/rate);
+    this.exchangeRates.forEach((exchangeRate: ExchangeRate) => {
+      bank.AddExchangeRate(this.pivotCurrency, exchangeRate.currency, exchangeRate.rate);
+      bank.AddExchangeRate(exchangeRate.currency, this.pivotCurrency, 1/exchangeRate.rate);
     })
     return bank;
   }
