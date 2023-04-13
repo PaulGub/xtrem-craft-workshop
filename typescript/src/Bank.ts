@@ -39,9 +39,9 @@ export class Bank {
   }
 
   Convert(money: Money, toCurrency: Currency) :Money {
-    if(money.currency !== toCurrency){
-      return new Money(money.amount*this._exchangeRates.get(money.currency + '->' + toCurrency),toCurrency)
-    }
-    return money
+    if (!(money.currency === toCurrency || this._exchangeRates.has(money.currency + '->' + toCurrency))) { throw new MissingExchangeRateError(money.currency, toCurrency) }
+    return money.currency !== toCurrency 
+      ? new Money(money.amount*this._exchangeRates.get(money.currency + '->' + toCurrency),toCurrency)
+      : money
   }
 }
