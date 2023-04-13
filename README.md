@@ -1,3 +1,25 @@
+# Infos
+
+### Membres du groupe :
+
+- Paul Gubbiotti
+- Lucas Faget
+- Samuel Rappy
+- Romain Thibaud
+- Théo Jamard
+
+### Dossier markdown :
+
+```
+./answers
+```
+
+### Langage utilisé :
+
+```
+TypeScript
+```
+
 # Xtrem Craft workshop
 
 This workshop is based on the [Xtrem TDD workshop](https://github.com/les-tontons-crafters/xtrem-tdd-money-kata), 
